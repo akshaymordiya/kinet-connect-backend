@@ -14,7 +14,7 @@ class UserController extends ErrorHandler{
       return res.status(httpStatus.OK).json({
         statusCode: httpStatus.OK,
         message: UserNotifications.UPDATE,
-        user
+        user: UserServices.mappedUserData(user)
       })
     } catch (error) {
       console.error(error)

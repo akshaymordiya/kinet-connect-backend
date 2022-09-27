@@ -75,7 +75,7 @@ class AuthController extends ErrorHandler{
     return res.status(statusCode).json({
       statusCode,
       message: SUCCESS,
-      user,
+      user: UserServices.mappedUserData(user),
       isAuthenticated: true
     });
   }
@@ -150,7 +150,7 @@ class AuthController extends ErrorHandler{
     return res.status(httpStatus.OK).json({
       statusCode: httpStatus.OK,
       message: AuthNotifications.SUCCESS,
-      user: authenticatedUser,
+      user: UserServices.mappedUserData(authenticatedUser),
       isAuthenticated: true
     });
   }
@@ -223,7 +223,7 @@ class AuthController extends ErrorHandler{
     return res.status(httpStatus.OK).json({
       statusCode: httpStatus.OK,
       message: AuthNotifications.SUCCESS,
-      user,
+      user: UserServices.mappedUserData(user),
       isAuthenticated: true
     });
 

@@ -20,7 +20,7 @@ class UserServices {
   }
 
   async getUserById(id) {
-    return User.findById(id)
+    return await User.findById(id)
   }
 
   async getUserByKey(key, value) {
@@ -34,6 +34,10 @@ class UserServices {
   async checkIfKeyValueAlreadyExist(key, value, excludeId = null) {
     const isExist = await User.isKeyAlreadyExist(key, value, excludeId)
     return isExist;
+  }
+
+  mappedUserData(user) {
+    return omit(user._doc, ['password']);
   }
 
   async updateUserById(filter, update){
