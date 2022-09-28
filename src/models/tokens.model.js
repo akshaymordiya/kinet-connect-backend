@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { convertToJson, paginate } = require('./plugins');
 
-const TokenSchema = mongoose.Schema({
+const TokenSchema = new mongoose.Schema({
   refreshToken: {
     type: String,
     required: true

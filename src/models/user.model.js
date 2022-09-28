@@ -3,7 +3,7 @@ const { AuthServices } = require("../services");
 const { isEmail } = require("../validations/custom.validation");
 const { convertToJson, paginate } = require("./plugins");
 
-const UserSchema = mongoose.Schema({
+const UserSchema = new mongoose.Schema({
   fullName: {
     type: String,
     trim: true,
@@ -46,7 +46,7 @@ const UserSchema = mongoose.Schema({
   },
   verifiedFrom: {
     type: String,
-    enum: ['email'] 
+    enum: ['email']
   },
   isActivated: {
     type: Boolean,

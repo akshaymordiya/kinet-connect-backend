@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const authRoutes = require('./auth.route');
 const userRoutes = require('./user.route');
+const roomRoutes = require('./room.route');
 
 const appRoutes = [
   {
@@ -10,6 +11,10 @@ const appRoutes = [
   {
     path: "/users",
     routes: userRoutes
+  },
+  {
+    path: "/rooms",
+    routes: roomRoutes
   }
 ]
 

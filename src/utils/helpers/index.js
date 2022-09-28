@@ -1,6 +1,5 @@
 const iterator = (object = {}, keys = [], conditionalCallback = () => {}) => {
   return keys.reduce((obj, key) => {
-    console.log("check ", conditionalCallback(key));
     if(conditionalCallback(key)){
       obj[key] = object[key]
     }
