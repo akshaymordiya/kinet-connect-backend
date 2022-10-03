@@ -13,11 +13,26 @@ class RoomController {
 
   async createRoom(req, res, next) {
     try {
-      const { hostBy, topic, description, type } = req?.body
+      const { hostBy, topic, description, type, destroyExistingAndCreateNew = false } = req?.body
       if(hostBy !== req.user._id){
         throw ErrorHandler(httpStatus.BAD_REQUEST, roomNotifications.ERROR.AUTHENTICATED_HOST_ERROR)
       }
-      
+
+      const checkIftheActiveRoomForHostAlreadyExist = await RoomService.getHostActiveRoom(req.user._id);
+      if(checkIftheActiveRoomForHostAlreadyExist.length){
+        if(destroyExistingAndCreateNew){
+          const deletedCount = await RoomService.destroyHostActiveRoom(req.user._id, checkIftheActiveRoomForHostAlreadyExist[0].roomKey)
+          console.log("deletedCount", deletedCount);
+        }else {
+          return res.status(httpStatus.OK).json({
+            message: roomNotifications.SUCCESS.ALREADY_EXIST_ACTIVE_ROOM,
+            statusCode: httpStatus.OK,
+            room: checkIftheActiveRoomForHostAlreadyExist[0],
+            isAlreadyExist: true
+          });
+        }
+      }
+
       const payload = {
         topic,
         description,
@@ -36,9 +51,11 @@ class RoomController {
       return res.status(httpStatus.OK).json({
         message: roomNotifications.SUCCESS.CREATED,
         statusCode: httpStatus.OK,
-        room: newRoom
+        room: newRoom,
+        ...(destroyExistingAndCreateNew && {
+          isRecreate: true
+        })
       });
-
     } catch (error) {
       console.error(error);
       return res.status(error?.statusCode || httpStatus.INTERNAL_SERVER_ERROR).json({
